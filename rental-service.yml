@@ -2,5 +2,5 @@ spring:
   profiles: test
   data:
     mongodb:
-      host: localhost
+      host: 192.168.99.101
       port: 27017
