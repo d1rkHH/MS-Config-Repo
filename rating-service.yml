@@ -1,0 +1,13 @@
+server:
+  port: 4000  
+spring:
+  profiles: test
+  data:
+    neo4j:
+      uri: http://192.168.99.101:7474
+      username: neo4j
+      password: dtmj41 
+  rabbitmq:
+    host: 192.168.99.101
+    username: guest
+    password: guest
