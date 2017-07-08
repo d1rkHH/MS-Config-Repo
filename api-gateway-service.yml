@@ -5,3 +5,13 @@ zuul:
     movie-service:
       path: /movies/**
       url: http://localhost:5000/v1/movies/
+    rating-service:
+      path: /rating/**
+      url: http://localhost:4000/v1/ratings/
+    rental-service:
+      path: /rental/**
+      url: http://localhost:6000/v1/rentals/
+    recommendation-service:
+      path: /recommendation/**
+      url: http://localhost:4500/v1/recommendations/
+      
