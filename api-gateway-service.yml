@@ -4,4 +4,4 @@ zuul:
   routes:
     movie-service:
       path: /movies/**
-      url: http://localhost:5000/movies
+      url: http://localhost:5000/v1/movies/
