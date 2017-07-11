@@ -10,6 +10,7 @@ spring:
     host: 192.168.99.101
     username: guest
     password: guest
+---
 spring:
   profiles: test
   data:
