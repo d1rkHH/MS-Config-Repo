@@ -1,13 +1,45 @@
-server:
-  port: 4000  
 spring:
   profiles: test
   data:
     neo4j:
-      uri: http://192.168.99.101:7474
+      uri: http://192.168.99.100:7474
       username: neo4j
-      password: dtmj41 
+      password: test
   rabbitmq:
-    host: 192.168.99.101
+    host: 192.168.99.100
     username: guest
     password: guest
+server:
+  port: 9500
+---
+spring:
+  profiles: docker
+  data:
+    neo4j:
+      uri: http://neo4j:7474
+      username: neo4j
+      password: test
+  rabbitmq:
+    host: rabbitmq
+    username: guest
+    password: guest
+---
+spring:
+  profiles: swarm
+  data:
+    neo4j:
+      uri: http://${DB}:7474
+      username: neo4j
+      password: test
+  rabbitmq:
+    host: ${RABBIT}
+    username: guest
+    password: guest
+
+  sleuth:
+    sampler:
+      percentage: 0.5
+
+  zipkin:
+    base-url: http://${ZIPKIN}:9411/
+    enabled: true

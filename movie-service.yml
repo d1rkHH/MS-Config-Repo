@@ -1,14 +1,45 @@
-server:
-  port: 5000
 spring:
-  profiles: test
+  profiles: dev
   datasource:
-    url: jdbc:h2:mem:AZ;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-  h2:
-   console:
-    enabled: true
-    path: /console/
+    url: jdbc:mysql://192.168.99.100:3306/test?useSSL=false
+    username: root
+    password: root
+  jpa:
+    database: mysql
+    hibernate:
+        ddl-auto: update
+
   rabbitmq:
-    host: 192.168.99.101
-    username: guest
-    password: guest
+      host: 192.168.99.100
+      username: guest
+      password: guest
+---
+spring:
+  profiles: docker
+  datasource:
+      url: jdbc:mysql://mysql:3306/test?useSSL=false
+      username: root
+      password: root
+  jpa:
+      database: mysql
+      hibernate:
+          ddl-auto: update
+  rabbitmq:
+      host: rabbitmq
+      username: guest
+      password: guest
+---
+spring:
+  profiles: swarm
+  datasource:
+      url: jdbc:mysql://${DB}:3306/test?useSSL=false
+      username: root
+      password: root
+  jpa:
+      database: mysql
+      hibernate:
+          ddl-auto: update
+  rabbitmq:
+      host: ${RABBIT}
+      username: guest
+      password: guest

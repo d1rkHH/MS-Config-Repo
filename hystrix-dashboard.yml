@@ -1,4 +1,0 @@
-server:
-  port: 6161
-spring:
-  profiles: test

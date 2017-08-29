@@ -1,0 +1,67 @@
+spring.profiles.active: test
+---
+spring:
+  profiles: test
+  application:
+    name: ui-service
+server:
+  port: 7500
+zuul:
+  sensitive-headers: Cookie,Set-Cookie
+  ignoredServices: '*'
+  routes:
+    loginui:
+      path: /ui/login
+      url: http://localhost:8000/v1/
+    api:
+      path: /api/**
+      url: http://localhost:7000/
+
+msapp.url:
+    movieServiceUrl: http://localhost:8080/v1/
+    rentalServiceUrl: http://localhost:6500/v1/
+    ratingServiceUrl: http://localhost:9500/v1/
+---
+spring:
+  profiles: docker
+  application:
+    name: ui-service
+server:
+  port: 8080
+zuul:
+  sensitive-headers: Cookie,Set-Cookie
+  ignoredServices: '*'
+  routes:
+    loginui:
+      path: /ui/login
+      url: http://192.168.99.100:9000/v1/
+    api:
+      path: /api/**
+      url: http://192.168.99.100:9500/
+
+msapp.url:
+    movieServiceUrl: http://192.168.99.100:4000/v1/
+    rentalServiceUrl: http://192.168.99.100:8000/v1/
+    ratingServiceUrl: http://192.168.99.100:5000/v1/
+---
+spring:
+  profiles: swarm
+  application:
+    name: ui-service
+server:
+  port: 8080
+zuul:
+  sensitive-headers: Cookie,Set-Cookie
+  ignoredServices: '*'
+  routes:
+    loginui:
+      path: /ui/login
+      url: http://${USER}:8080/v1/
+    api:
+      path: /api/**
+      url: http://${GATEWAY}:8080/
+
+msapp.url:
+    movieServiceUrl: http://${MOVIE}:8080/v1/
+    rentalServiceUrl: http://${RENTAL}:8080/v1/
+    ratingServiceUrl: http://${RATING}:8080/v1/

@@ -1,17 +1,87 @@
 spring:
-  profiles: test
+  profiles: dev
+server:
+  port: 7000
 zuul:
+  sensitive-headers: Cookie,Set-Cookie
+  ignoredServices: '*'
   routes:
     movie-service:
-      path: /movies/**
-      url: http://localhost:5000/v1/movies/
-    rating-service:
-      path: /ratings/**
-      url: http://localhost:4000/v1/ratings/
+      path: /movie/**
+      url: http://localhost:8080/v1/
+    mobile:
+      path: /mobile/**
+      url: forward:/mobile/
     rental-service:
-      path: /rentals/**
-      url: http://localhost:6000/v1/rentals/
+      path: /rental/**
+      url: http://localhost:6500/v1/
+    rating-service:
+      path: /rating/**
+      url: http://localhost:9500/v1/
+    user-service:
+      path: /user/**
+      url: http://localhost:8000/v1/
     recommendation-service:
-      path: /recommendations/**
-      url: http://localhost:4500/v1/recommendations/
-      
+      path: /recommendation/**
+      url: http://localhost:4500/v1/
+---
+spring:
+  profiles: docker
+  application:
+    name: ui-service
+server:
+  port: 9500
+zuul:
+  sensitive-headers: Cookie,Set-Cookie
+  ignoredServices: '*'
+  routes:
+    loginui:
+      path: /ui/login
+      url: http://192.168.99.100:9000/v1/
+    movie-service:
+      path: /api/movie/**
+      url: http://192.168.99.100:4000/v1/
+    mobile:
+      path: /mobile/**
+      url: forward:/mobile/
+    rental-service:
+      path: /api/rental/**
+      url: http://192.168.99.100:8000/v1/
+    rating-service:
+      path: /api/rating/**
+      url: http://192.168.99.100:5000/v1/
+    user-service:
+      path: /api/user/**
+      url: http://192.168.99.100:9000/v1/
+    recommendation-service:
+      path: /api/recommendation/**
+      url: http://192.168.99.100:7000/v1/
+---
+spring:
+  profiles: swarm
+  application:
+    name: ui-service
+server:
+  port: 8080
+zuul:
+  sensitive-headers: Cookie,Set-Cookie
+  ignoredServices: '*'
+  routes:
+    movie-service:
+      path: /movie/**
+      url:  http://${MOVIE}:8080/v1/
+    mobile:
+      path: /mobile/**
+      url: forward:/mobile/
+    rental-service:
+      path: /rental/**
+      url:  http://${RENTAL}:8080/v1/
+    rating-service:
+      path: /rating/**
+      url:  http://${RATING}:8080/v1/
+    user-service:
+      path: /user/**
+      url:  http://${USER}:8080/v1/
+    recommendation-service:
+      path: /recommendation/**
+      url:  http://${RECOMMENDATION}:8080/v1/

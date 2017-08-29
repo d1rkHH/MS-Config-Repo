@@ -1,8 +1,42 @@
-server:
-  port: 6000
 spring:
-  profiles: test
+  profiles: dev
   data:
     mongodb:
-      host: 192.168.99.101
+      host: 192.168.99.100
       port: 27017
+server:
+  port: 6500
+
+msapp.url:
+    movieServiceUrl: http://localhost:8080/v1/
+    userServiceUrl: http://localhost:8000/v1/
+---
+spring:
+  profiles: docker
+  data:
+    mongodb:
+      host: mongo
+      port: 27017
+
+msapp.url:
+    movieServiceUrl: http://192.168.99.100:4000/v1/
+    userServiceUrl: http://192.168.99.100:9000/v1/
+---
+spring:
+  profiles: swarm
+  data:
+    mongodb:
+      host: ${DB}
+      port: 27017
+
+  sleuth:
+    sampler:
+      percentage: 0.5
+
+  zipkin:
+    base-url: http://${ZIPKIN}:9411/
+    enabled: true
+
+msapp.url:
+    movieServiceUrl: http://${MOVIE}:8080/v1/
+    userServiceUrl: http://${USER}:8080/v1/

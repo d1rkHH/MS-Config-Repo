@@ -1,15 +1,55 @@
-server:
-  port: 4500
 spring:
   profiles: dev
   data:
     mongodb:
-      host: 192.168.99.101
+      host: 192.168.99.100
       port: 27017
   rabbitmq:
-    host: 192.168.99.101
+    host: 192.168.99.100
     username: guest
     password: guest
+server:
+  port: 4500
+
+msapp.url:
+    movieServiceUrl: http://localhost:8080/v1/
 ---
 spring:
-  profiles: test
+  profiles: docker
+  data:
+    mongodb:
+      host: mongo
+      port: 27017
+  rabbitmq:
+    host: rabbitmq
+    username: guest
+    password: guest
+server:
+  port: 8080
+
+msapp.url:
+    movieServiceUrl: http://192.168.99.100:4000/v1/
+---
+spring:
+  profiles: swarm
+  data:
+    mongodb:
+      host: ${DB}
+      port: 27017
+  rabbitmq:
+    host: ${RABBIT}
+    username: guest
+    password: guest
+
+  sleuth:
+    sampler:
+      percentage: 0.5
+
+  zipkin:
+    base-url: http://${ZIPKIN}:9411/
+    enabled: true
+server:
+  port: 8080
+
+msapp.url:
+    movieServiceUrl: http://${MOVIE}:8080/v1/
